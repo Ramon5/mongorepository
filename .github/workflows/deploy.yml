@@ -1,0 +1,29 @@
+name: Python package
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_call:
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: '1.3.2'
+      
+      - name: Setup Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'poetry'
+
+      - name: Publish
+        run: |
+          poetry config pypi-token.pypi ${{ vars.PYPI_TOKEN }}
+          poetry publish --build

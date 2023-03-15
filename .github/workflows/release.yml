@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  workflow_call:
+    
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    concurrency: release
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GH_TOKEN }}
+          fetch-depth: 0
+      
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: '1.3.2'
+      
+      - name: Setup Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'poetry'
+      
+      - name: Install requirements
+        run: poetry install --only semver
+     
+      - name: Python Semantic Release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          set -o pipefail
+          # Set git details
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          # run semantic-release
+          poetry run semantic-release publish -v DEBUG -D commit_author="github-actions <action@github.com>"
