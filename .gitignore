@@ -5,7 +5,7 @@ __pycache__/
 
 # C extensions
 *.so
-
+dist
 # Distribution / packaging
 .Python
 build/
@@ -26,6 +26,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+.mypy_cache
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -129,3 +130,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+.vscode
+.idea

@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "mongorepo"
+name = "mongorepository"
 version = "0.2.0"
 description = ""
 authors = ["Ramon Rodrigues <ramon.srodrigues01@gmail.com>"]
@@ -33,7 +33,7 @@ profile = "black"
 
 [tool.semantic_release]
 branch = "main"
-version_variable = "mongorepo/__init__.py:__version__"
+version_variable = "mongorepository/__init__.py:__version__"
 version_toml = "pyproject.toml:tool.poetry.version"
 version_source = "tag"
 commit_version_number = true # required for version_source = "tag"

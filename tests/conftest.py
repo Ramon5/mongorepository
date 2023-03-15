@@ -4,9 +4,9 @@ import mongomock
 import mongomock_motor
 import pytest
 
-from mongorepo.models.mongo import MongoBaseModel
-from mongorepo.repositories.mongo_async.mongo import AsyncRepository
-from mongorepo.repositories.sync.mongo import Repository
+from mongorepository.models.mongo import MongoBaseModel
+from mongorepository.repositories.mongo_async.mongo import AsyncRepository
+from mongorepository.repositories.sync.mongo import Repository
 
 
 class AsyncMongoClient(mongomock_motor.AsyncMongoMockClient):

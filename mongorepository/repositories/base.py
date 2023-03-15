@@ -1,7 +1,6 @@
-from abc import ABC
 from typing import Generic, TypeVar
 
-from mongorepo.models.mongo import MongoBaseModel
+from mongorepository.models.mongo import MongoBaseModel
 
 T = TypeVar("T", bound=MongoBaseModel)
 

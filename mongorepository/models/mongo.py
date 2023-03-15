@@ -2,7 +2,7 @@ from typing import Optional
 
 from pydantic import BaseModel, Field
 
-from mongorepo.models.base import ObjectIdField
+from mongorepository.models.base import ObjectIdField
 
 
 class MongoBaseModel(BaseModel):

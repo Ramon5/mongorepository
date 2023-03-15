@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from bson import ObjectId
 
-from mongorepo.repositories.base import AbstractRepository, T
+from mongorepository.repositories.base import AbstractRepository, T
 
 
 class Repository(AbstractRepository[T]):
