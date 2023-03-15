@@ -2,11 +2,11 @@ from typing import Optional
 
 from pydantic import BaseModel, Field
 
-from mongorepository.models.base import ObjectIdField
+from mongorepository.models.base import ObjectIdStr
 
 
 class MongoBaseModel(BaseModel):
-    id: Optional[ObjectIdField] = Field(alias="_id")
+    id: Optional[ObjectIdStr] = Field(alias="_id")
 
     @classmethod
     def projection(cls) -> dict:
