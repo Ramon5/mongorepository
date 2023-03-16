@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.0.1 (2023-03-16)
+### Fix
+* Try fix workflow secrets ([`716d836`](https://github.com/Ramon5/mongorepository/commit/716d8360ccdb2de0728db67296e3e9502c8e8d34))
+
 ## v0.2.2 (2023-03-15)
 ### Fix
 * Rename workflow ([`02d80fe`](https://github.com/Ramon5/mongorepository/commit/02d80fe9c4b914e3298862b436546e32e24f8d09))
