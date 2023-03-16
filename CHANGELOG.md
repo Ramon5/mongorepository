@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.4.0 (2023-03-16)
+### Feature
+* Add timestamp fields ([`bb92fa5`](https://github.com/Ramon5/mongorepository/commit/bb92fa54a3adb2a0d56b61c5a595368a5782b849))
+
 ## v0.3.1 (2023-03-16)
 ### Fix
 * Adjusts in workflows ([`54cad0a`](https://github.com/Ramon5/mongorepository/commit/54cad0a8d7919fdf0179821a0f6290a0aa3e8b4a))
