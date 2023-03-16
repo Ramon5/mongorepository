@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.3.1 (2023-03-16)
+### Fix
+* Adjusts in workflows ([`54cad0a`](https://github.com/Ramon5/mongorepository/commit/54cad0a8d7919fdf0179821a0f6290a0aa3e8b4a))
+
 ## v0.3.0 (2023-03-16)
 ### Feature
 * Add pagination query ([`25787d2`](https://github.com/Ramon5/mongorepository/commit/25787d2e9725bc2274a878f42f12ac915f102ef3))
