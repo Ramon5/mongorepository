@@ -2,6 +2,17 @@
 
 <!--next-version-placeholder-->
 
+## v0.3.0 (2023-03-16)
+### Feature
+* Add pagination query ([`25787d2`](https://github.com/Ramon5/mongorepository/commit/25787d2e9725bc2274a878f42f12ac915f102ef3))
+
+### Fix
+* Deploy secret ([`5402d31`](https://github.com/Ramon5/mongorepository/commit/5402d31a435febc282301fa1cb8d268ad98c5c37))
+* Secrets ([`a746c99`](https://github.com/Ramon5/mongorepository/commit/a746c991ac296cbc16445add68693c5f235ae54b))
+* Try fix workflow secrets ([`716d836`](https://github.com/Ramon5/mongorepository/commit/716d8360ccdb2de0728db67296e3e9502c8e8d34))
+* Add secrets ([`b140ca0`](https://github.com/Ramon5/mongorepository/commit/b140ca0d1a4349662dc4038e552ae9cf9752ba8e))
+* Checkout step ([`b6c1749`](https://github.com/Ramon5/mongorepository/commit/b6c1749159aade67253774d9c2fcf1438bb78631))
+
 ## v0.0.1 (2023-03-16)
 ### Fix
 * Secrets ([`a746c99`](https://github.com/Ramon5/mongorepository/commit/a746c991ac296cbc16445add68693c5f235ae54b))
