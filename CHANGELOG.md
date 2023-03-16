@@ -4,6 +4,10 @@
 
 ## v0.0.1 (2023-03-16)
 ### Fix
+* Secrets ([`a746c99`](https://github.com/Ramon5/mongorepository/commit/a746c991ac296cbc16445add68693c5f235ae54b))
+
+## v0.0.1 (2023-03-16)
+### Fix
 * Try fix workflow secrets ([`716d836`](https://github.com/Ramon5/mongorepository/commit/716d8360ccdb2de0728db67296e3e9502c8e8d34))
 
 ## v0.2.2 (2023-03-15)
