@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_TOKEN }}
       
       - name: Install Poetry
         uses: abatilo/actions-poetry@v2.0.0
