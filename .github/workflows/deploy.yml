@@ -4,9 +4,6 @@ on:
     tags:
       - "v*.*.*"
   workflow_call:
-
-env:
-  PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
   
 jobs:
   build:
@@ -32,5 +29,5 @@ jobs:
 
       - name: Publish
         run: |
-          poetry config pypi-token.pypi $PYPI_TOKEN
+          poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
           poetry publish --build

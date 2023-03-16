@@ -1,11 +1,7 @@
 name: Release
 
 on:
-  workflow_call:
-
-env:
-  GH_TOKEN: ${{ secrets.GH_TOKEN }}
-    
+  workflow_call:    
 
 jobs:
   release:
