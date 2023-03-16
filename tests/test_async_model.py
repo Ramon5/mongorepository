@@ -1,5 +1,7 @@
 import pytest
 
+from tests.factories import DataFactory
+
 pytestmark = pytest.mark.asyncio
 
 
@@ -27,3 +29,11 @@ async def test_delete_data(async_repository, model_class):
     await async_repository.delete(result[0])
     result = await async_repository.list_all()
     assert not result
+
+
+async def test_get_paginated_results(async_repository):
+    async_repository.set_pagination(True)
+    registers = DataFactory.batch(size=100)
+    await async_repository.bulk_create(registers)
+    documents = await async_repository.list_all()
+    assert documents["total"] == 50

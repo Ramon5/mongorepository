@@ -9,14 +9,14 @@ jobs:
   call-testing-pipeline:
     name: Testing
     uses: ./.github/workflows/test.yml
-  call-deploy-pipeline:
-    name: Deploy
-    needs:
-      - call-testing-pipeline
-    uses: ./.github/workflows/deploy.yml
   call-release-pipeline:
     name: Release
     needs:
-      - call-deploy-pipeline
+      - call-testing-pipeline
     uses: ./.github/workflows/release.yml
+  call-deploy-pipeline:
+    name: Deploy
+    needs:
+      - call-release-pipeline
+    uses: ./.github/workflows/deploy.yml
     secrets: inherit
