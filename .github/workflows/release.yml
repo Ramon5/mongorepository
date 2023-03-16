@@ -13,6 +13,10 @@ jobs:
     concurrency: release
 
     steps:
+      - name: Print secrets
+        run:
+          echo $GH_TOKEN
+          
       - name: Checkout repository
         uses: actions/checkout@v3
       
