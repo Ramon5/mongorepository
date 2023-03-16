@@ -6,7 +6,7 @@ on:
   workflow_call:
 
 env:
-  PYPI_TOKEN: ${{ secrets.GH_TOKEN }}
+  PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
   
 jobs:
   build:
@@ -14,6 +14,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GH_TOKEN }}
+          fetch-depth: 0
       
       - name: Install Poetry
         uses: abatilo/actions-poetry@v2.0.0
