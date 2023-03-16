@@ -12,11 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency: release
 
-    steps:
-      - name: Print secrets
-        run:
-          echo $GH_TOKEN
-          
+    steps:          
       - name: Checkout repository
         uses: actions/checkout@v3
       
