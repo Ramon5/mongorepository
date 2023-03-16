@@ -2,6 +2,9 @@ name: Release
 
 on:
   workflow_call:
+
+env:
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
     
 
 jobs:
@@ -12,10 +15,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.GH_TOKEN }}
-        run:
-          echo ${{ secrets.GH_TOKEN }}
       
       - name: Install Poetry
         uses: abatilo/actions-poetry@v2.0.0
@@ -32,8 +31,6 @@ jobs:
         run: poetry install --only semver
      
       - name: Python Semantic Release
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           set -o pipefail
           # Set git details
