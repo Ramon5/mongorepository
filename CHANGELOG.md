@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.4.1 (2023-03-17)
+### Fix
+* .gitignore ([`03d1d2b`](https://github.com/Ramon5/mongorepository/commit/03d1d2ba2ef52405fd6ef72a23898a15cb39b68f))
+
 ## v0.4.0 (2023-03-16)
 ### Feature
 * Add timestamp fields ([`bb92fa5`](https://github.com/Ramon5/mongorepository/commit/bb92fa54a3adb2a0d56b61c5a595368a5782b849))
