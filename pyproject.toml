@@ -9,7 +9,6 @@ readme = "README.md"
 python = "^3.9"
 pydantic = "^1.10.6"
 motor = "^3.1.1"
-async-cache = "^1.1.1"
 
 
 [tool.poetry.group.lint.dependencies]

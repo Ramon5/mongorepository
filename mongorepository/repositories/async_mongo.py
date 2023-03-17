@@ -1,31 +1,37 @@
-from typing import List, Optional
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 import pymongo
 from bson import ObjectId
-from cache import AsyncLRU
+from motor.core import Cursor
+from motor.motor_asyncio import AsyncIOMotorDatabase
+from pymongo.results import InsertManyResult, InsertOneResult
 
 from mongorepository.repositories.base import AbstractRepository, T
 
 
 class AsyncRepository(AbstractRepository[T]):
-    def __init__(self, database):
+    def __init__(self, database: AsyncIOMotorDatabase):
         super().__init__(database)
 
     async def __get_paginated_documents(
-        self, query, sort, next_key=None, projection: Optional[dict] = None
-    ):
+        self,
+        query: Dict[str, Any],
+        sort: List[Tuple[str, int]],
+        next_key: Optional[Dict[str, Any]],
+        projection: Dict[str, Any],
+    ) -> Dict[str, Any]:
         collection = self.get_collection()
         query, next_key_fn = self.generate_pagination_query(
             query, sort, next_key
         )  # noqa: E501
 
-        async_cursor = (
+        cursor: Cursor = (
             collection.find(query, projection=projection)
             .sort(sort)
             .limit(self._query_limit)
         )
 
-        documents = [document async for document in async_cursor]  # noqa: E501
+        documents = [document async for document in cursor]  # noqa: E501
 
         return {
             "total": len(documents),
@@ -33,14 +39,13 @@ class AsyncRepository(AbstractRepository[T]):
             "next_page": next_key_fn(documents),
         }
 
-    @AsyncLRU()
     async def list_objects(
         self,
         query: Optional[dict] = None,
         sort: Optional[List] = None,
         next_page: Optional[dict] = None,
         projection: Optional[dict] = None,
-    ) -> List[T]:
+    ) -> Union[List[T], Dict[str, Any]]:
         collection = self.get_collection()
 
         if query is None:
@@ -56,17 +61,16 @@ class AsyncRepository(AbstractRepository[T]):
             self._convert_paginated_results_to_model(result)
             return result
 
-        async_cursor = collection.find(
+        cursor: Cursor = collection.find(
             query, projection=projection or self.get_projection()
         ).sort(  # noqa: E501
             sort
         )
 
         return [
-            self._model_class(**document) async for document in async_cursor
+            self._model_class(**document) async for document in cursor
         ]  # noqa: E501
 
-    @AsyncLRU()
     async def find_by_query(
         self, query: dict, projection: Optional[dict] = None
     ) -> Optional[T]:
@@ -77,7 +81,6 @@ class AsyncRepository(AbstractRepository[T]):
             return self._model_class(**document)
         return None
 
-    @AsyncLRU()
     async def find_by_id(
         self, document_id: str, projection: Optional[dict] = None
     ) -> Optional[T]:
@@ -99,13 +102,15 @@ class AsyncRepository(AbstractRepository[T]):
             )  # noqa: E501
             return await self.find_by_id(model.id)
 
-        document = await collection.insert_one(raw_model)
+        document: InsertOneResult = await collection.insert_one(raw_model)
 
         return await self.find_by_id(str(document.inserted_id))
 
     async def bulk_create(self, models: List[T]) -> List[ObjectId]:
         raw_models = [model.dict(exclude_none=True) for model in models]
-        result = await self.get_collection().insert_many(raw_models)
+        result: InsertManyResult = await self.get_collection().insert_many(
+            raw_models
+        )  # noqa: E501
         return result.inserted_ids
 
     async def delete(self, model: T) -> bool:

@@ -31,17 +31,6 @@ six = "*"
 test = ["astroid", "pytest"]
 
 [[package]]
-name = "async-cache"
-version = "1.1.1"
-description = "An asyncio Cache"
-category = "main"
-optional = false
-python-versions = ">=3.3"
-files = [
-    {file = "async-cache-1.1.1.tar.gz", hash = "sha256:81aa9ccd19fb06784aaf30bd5f2043dc0a23fc3e998b93d0c2c17d1af9803393"},
-]
-
-[[package]]
 name = "attrs"
 version = "22.2.0"
 description = "Classes Without Boilerplate"
@@ -1718,4 +1707,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "c3bb368605be2fc094d58c262f9b666ef90d0999a005dee0380e8316261c854d"
+content-hash = "3c4168cb540af595acf0a8d371dc371cc50d93e42ccc925035f6b3706a31b3d6"

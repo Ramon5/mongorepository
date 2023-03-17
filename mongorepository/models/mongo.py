@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from typing import Optional, TypeVar
+from typing import Any, Dict, Optional, TypeVar
 
 from pydantic import BaseModel, Field
 
@@ -24,7 +24,7 @@ class MongoBaseModel(BaseModel):
             setattr(self, field, updates[field])
 
     @classmethod
-    def projection(cls) -> dict:
+    def projection(cls) -> Dict[str, Any]:
         fields = cls.__fields__
         keys = fields.keys()
         mapper = {}

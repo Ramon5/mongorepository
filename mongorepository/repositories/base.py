@@ -1,4 +1,17 @@
-from typing import Generic, TypeVar
+from typing import (  # noqa: E501
+    Any,
+    Callable,
+    Dict,
+    Generic,
+    List,
+    Optional,
+    Tuple,
+    TypeVar,
+    Union,
+)
+
+from motor import core
+from pymongo.collection import Collection
 
 from mongorepository.models.mongo import MongoBaseModel
 
@@ -18,31 +31,38 @@ class AbstractRepository(Generic[T]):
             return self.Config.pagination or False
         return False
 
-    def __get_query_limit_documents(self):
+    def __get_query_limit_documents(self) -> int:
         if hasattr(self.Config, "pagination"):
             if hasattr(self.Config, "limit"):
                 return self.Config.limit
             return 50
 
-    def set_pagination(self, value: bool):
+    def set_pagination(self, value: bool) -> None:
         self._paginated = value
         self._query_limit = 50
 
-    def get_collection(self):
+    def get_collection(self) -> Union[Collection, core.Collection]:
         return self.__database.get_collection(self.__collection_name)
 
-    def get_projection(self) -> dict:
+    def get_projection(self) -> Dict[str, Any]:
         projection = self._model_class.projection()
         if hasattr(self.Config, "projection"):
             projection = self.Config.projection
         return projection
 
-    def _convert_paginated_results_to_model(self, document: dict) -> None:
+    def _convert_paginated_results_to_model(
+        self, document: Dict[str, Any]
+    ) -> None:  # noqa: E501
         document["results"] = [
             self._model_class(**document) for document in document["results"]
         ]
 
-    def generate_pagination_query(self, query, sort=None, next_key=None):
+    def generate_pagination_query(
+        self,
+        query: Dict[str, Any],
+        sort: Optional[List[Tuple[str, int]]] = None,
+        next_key: Optional[Dict[str, Any]] = None,
+    ) -> Tuple[Dict[str, Any], Callable]:
         sort_field = sort[0][0] if sort else None
 
         def next_key_fn(items):
