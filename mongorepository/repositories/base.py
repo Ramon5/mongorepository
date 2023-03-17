@@ -13,7 +13,7 @@ class AbstractRepository(Generic[T]):
         self._query_limit = self.__get_query_limit_documents()
         self._model_class = self.__orig_bases__[0].__args__[0]
 
-    def __get_pagination_flag(self):
+    def __get_pagination_flag(self) -> bool:
         if hasattr(self.Config, "pagination"):
             return self.Config.pagination or False
         return False

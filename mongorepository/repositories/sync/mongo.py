@@ -1,8 +1,8 @@
+from functools import lru_cache
 from typing import List, Optional
 
 import pymongo
 from bson import ObjectId
-from cache import AsyncLRU
 
 from mongorepository.repositories.base import AbstractRepository, T
 
@@ -11,14 +11,16 @@ class Repository(AbstractRepository[T]):
     def __init__(self, database):
         super().__init__(database)
 
-    def __get_paginated_documents(self, query, sort, next_key=None):
+    def __get_paginated_documents(
+        self, query, sort, next_key=None, projection=None
+    ):  # noqa: E501
         query, next_key_fn = self.generate_pagination_query(
             query, sort, next_key
         )  # noqa: E501
 
         cursor = (
             self.get_collection()
-            .find(query, projection=self.get_projection())
+            .find(query, projection=projection or self.get_projection())
             .sort(sort)
             .limit(self._query_limit)
         )
@@ -31,11 +33,13 @@ class Repository(AbstractRepository[T]):
             "next_page": next_key_fn(documents),
         }
 
-    def list_all(
+    @lru_cache
+    def list_objects(
         self,
         query: Optional[dict] = None,
         sort: Optional[list] = None,
         next_page: Optional[dict] = None,
+        projection: Optional[dict] = None,
     ) -> List[T]:
         collection = self.get_collection()
         if query is None:
@@ -49,27 +53,36 @@ class Repository(AbstractRepository[T]):
             self._convert_paginated_results_to_model(result)
             return result
 
-        cursor = collection.find(query).sort(sort)
+        cursor = collection.find(
+            query, projection=projection or self.get_projection()
+        ).sort(sort)
 
         return [self._model_class(**document) for document in cursor]
 
-    @AsyncLRU(maxsize=128)
-    def find_by_query(self, query: dict) -> Optional[T]:
+    @lru_cache
+    def find_by_query(
+        self, query: dict, projection: Optional[dict] = None
+    ) -> Optional[T]:
         collection = self.get_collection()
-        if document := collection.find_one(query):
+        if document := collection.find_one(
+            query, projection=projection or self.get_projection()
+        ):
             return self._model_class(**document)
         return None
 
-    @AsyncLRU(maxsize=128)
-    def find_by_id(self, document_id: str) -> Optional[T]:
+    @lru_cache
+    def find_by_id(
+        self, document_id: str, projection: Optional[dict] = None
+    ) -> Optional[T]:
         collection = self.get_collection()
-        document = collection.find_one(
+        if document := collection.find_one(
             {"_id": ObjectId(document_id)},
-            projection=self.get_projection(),
-        )
-        return self._model_class(**document)
+            projection=projection or self.get_projection(),
+        ):
+            return self._model_class(**document)
+        return None
 
-    def save(self, model: T) -> T:
+    def save(self, model: T) -> Optional[T]:
         collection = self.get_collection()
         raw_model = model.dict(by_alias=True, exclude_none=True)
 

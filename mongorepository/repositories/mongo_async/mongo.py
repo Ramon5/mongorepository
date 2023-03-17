@@ -2,6 +2,7 @@ from typing import List, Optional
 
 import pymongo
 from bson import ObjectId
+from cache import AsyncLRU
 
 from mongorepository.repositories.base import AbstractRepository, T
 
@@ -10,14 +11,16 @@ class AsyncRepository(AbstractRepository[T]):
     def __init__(self, database):
         super().__init__(database)
 
-    async def __get_paginated_documents(self, query, sort, next_key=None):
+    async def __get_paginated_documents(
+        self, query, sort, next_key=None, projection: Optional[dict] = None
+    ):
         collection = self.get_collection()
         query, next_key_fn = self.generate_pagination_query(
             query, sort, next_key
         )  # noqa: E501
 
         async_cursor = (
-            collection.find(query, projection=self.get_projection())
+            collection.find(query, projection=projection)
             .sort(sort)
             .limit(self._query_limit)
         )
@@ -30,11 +33,13 @@ class AsyncRepository(AbstractRepository[T]):
             "next_page": next_key_fn(documents),
         }
 
-    async def list_all(
+    @AsyncLRU()
+    async def list_objects(
         self,
         query: Optional[dict] = None,
         sort: Optional[List] = None,
         next_page: Optional[dict] = None,
+        projection: Optional[dict] = None,
     ) -> List[T]:
         collection = self.get_collection()
 
@@ -46,13 +51,13 @@ class AsyncRepository(AbstractRepository[T]):
 
         if self._paginated:
             result = await self.__get_paginated_documents(
-                query, sort, next_page
+                query, sort, next_page, projection or self.get_projection()
             )  # noqa: E501
             self._convert_paginated_results_to_model(result)
             return result
 
         async_cursor = collection.find(
-            query, projection=self.get_projection()
+            query, projection=projection or self.get_projection()
         ).sort(  # noqa: E501
             sort
         )
@@ -61,23 +66,30 @@ class AsyncRepository(AbstractRepository[T]):
             self._model_class(**document) async for document in async_cursor
         ]  # noqa: E501
 
-    async def find_by_query(self, query: dict) -> Optional[T]:
+    @AsyncLRU()
+    async def find_by_query(
+        self, query: dict, projection: Optional[dict] = None
+    ) -> Optional[T]:
         collection = self.get_collection()
         if document := await collection.find_one(
-            query, projection=self.get_projection()
+            query, projection=projection or self.get_projection()
         ):
             return self._model_class(**document)
         return None
 
-    async def find_by_id(self, document_id: str) -> Optional[T]:
+    @AsyncLRU()
+    async def find_by_id(
+        self, document_id: str, projection: Optional[dict] = None
+    ) -> Optional[T]:
         collection = self.get_collection()
-        document = await collection.find_one(
+        if document := await collection.find_one(
             {"_id": ObjectId(document_id)},
-            projection=self.get_projection(),
-        )
-        return self._model_class(**document)
+            projection=projection or self.get_projection(),
+        ):
+            return self._model_class(**document)
+        return None
 
-    async def save(self, model: T):
+    async def save(self, model: T) -> Optional[T]:
         collection = self.get_collection()
         raw_model = model.dict(by_alias=True, exclude_none=True)
 

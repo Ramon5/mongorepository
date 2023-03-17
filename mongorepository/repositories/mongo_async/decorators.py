@@ -1,10 +1,10 @@
 from functools import wraps
 from typing import Callable
 
-from pymongo import MongoClient
+from motor.motor_asyncio import AsyncIOMotorClient
 
 
-def atomic_transaction(db_client: MongoClient):
+def atomic_transaction(db_client: AsyncIOMotorClient):
     def decorator(func: Callable):
         @wraps(func)
         async def wrapper(*args, **kwargs):
