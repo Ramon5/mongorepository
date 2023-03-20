@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.4.2 (2023-03-20)
+### Fix
+* Adjust delete method in repositories and refactor modules ([`ec9b79b`](https://github.com/Ramon5/mongorepository/commit/ec9b79b5050a3c034944a07dcffcbadeb674d38c))
+
 ## v0.4.1 (2023-03-17)
 ### Fix
 * .gitignore ([`03d1d2b`](https://github.com/Ramon5/mongorepository/commit/03d1d2ba2ef52405fd6ef72a23898a15cb39b68f))
