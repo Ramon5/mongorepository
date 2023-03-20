@@ -22,7 +22,7 @@ def test_delete_data(repository, model_class):
     result = repository.list_objects()
     assert len(result) == 1
 
-    repository.delete(result[0])
+    repository.delete(result[0].id)
     result = repository.list_objects()
     assert not result
 

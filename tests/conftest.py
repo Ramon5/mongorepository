@@ -4,7 +4,7 @@ import mongomock
 import mongomock_motor
 import pytest
 
-from mongorepository.models.mongo import MongoBaseModel
+from mongorepository.models import MongoBaseModel
 from mongorepository.repositories.async_mongo import AsyncRepository
 from mongorepository.repositories.mongo import Repository
 

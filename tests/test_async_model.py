@@ -26,7 +26,7 @@ async def test_delete_data(async_repository, model_class):
     result = await async_repository.list_objects()
     assert len(result) == 1
 
-    await async_repository.delete(result[0])
+    await async_repository.delete(result[0].id)
     result = await async_repository.list_objects()
     assert not result
 

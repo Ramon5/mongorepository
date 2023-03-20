@@ -13,7 +13,7 @@ from typing import (  # noqa: E501
 from motor import core
 from pymongo.collection import Collection
 
-from mongorepository.models.mongo import MongoBaseModel
+from mongorepository.models import MongoBaseModel
 
 T = TypeVar("T", bound=MongoBaseModel)
 

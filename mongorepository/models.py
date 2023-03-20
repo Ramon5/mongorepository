@@ -3,7 +3,7 @@ from typing import Any, Dict, Optional, TypeVar
 
 from pydantic import BaseModel, Field
 
-from mongorepository.models.base import ObjectIdStr
+from mongorepository.utils.objects import PyObjectId
 
 T = TypeVar("T", bound=BaseModel)
 
@@ -13,7 +13,7 @@ def date_tzinfo():
 
 
 class MongoBaseModel(BaseModel):
-    id: Optional[ObjectIdStr] = Field(alias="_id")
+    id: Optional[PyObjectId] = Field(alias="_id")
     created: datetime = Field(default_factory=date_tzinfo)
     updated: datetime = Field(default_factory=date_tzinfo)
 

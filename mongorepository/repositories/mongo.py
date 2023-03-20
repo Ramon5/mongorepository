@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 import pymongo
 from bson import ObjectId
 from pymongo.database import Database
-from pymongo.results import InsertManyResult, InsertOneResult
+from pymongo.results import DeleteResult, InsertManyResult, InsertOneResult
 
 from mongorepository.repositories.base import AbstractRepository, T
 
@@ -107,10 +107,13 @@ class Repository(AbstractRepository[T]):
         )  # noqa: E501
         return result.inserted_ids
 
-    def delete(self, model: T) -> bool:
+    def delete(self, object_id: Union[str, ObjectId]) -> bool:
         collection = self.get_collection()
-        raw_model = model.dict(by_alias=True, exclude_none=True)
-        if id_model := raw_model.get("_id", raw_model.get("id")):
-            collection.delete_one({"_id": ObjectId(id_model)})
+        if isinstance(object_id, str):
+            object_id = ObjectId(object_id)
+
+        result: DeleteResult = collection.delete_one({"_id": object_id})
+
+        if result.deleted_count == 1:
             return True
         return False
