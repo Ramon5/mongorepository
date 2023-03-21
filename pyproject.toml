@@ -33,6 +33,10 @@ python-semantic-release = "^7.33.2"
 [tool.poetry.group.dev.dependencies]
 ipython = "^8.11.0"
 
+
+[tool.poetry.group.docs.dependencies]
+sphinx-rtd-theme = "^1.2.0"
+
 [tool.isort]
 profile = "black"
 
