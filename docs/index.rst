@@ -6,6 +6,8 @@
 Welcome to mongorepository's documentation!
 ===========================================
 
+This package provide a mongodb repository for syncronous and asyncronous web applications.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:

@@ -40,10 +40,10 @@ class Repository(AbstractRepository[T]):
 
     def list_objects(
         self,
-        query: Optional[dict] = None,
-        sort: Optional[list] = None,
-        next_page: Optional[dict] = None,
-        projection: Optional[dict] = None,
+        query: Optional[Dict[str, Any]] = None,
+        sort: Optional[List[Tuple[str, int]]] = None,
+        next_page: Optional[Dict[str, Any]] = None,
+        projection: Optional[Dict[str, Any]] = None,
     ) -> Union[List[T], Dict[str, Any]]:
         collection = self.get_collection()
         if query is None:
@@ -65,8 +65,19 @@ class Repository(AbstractRepository[T]):
 
         return [self._model_class(**document) for document in cursor]
 
+    def list_distinct(
+        self,
+        field: str,
+        query: Dict[str, Any],
+        projection: Optional[Dict[str, Any]] = None,
+    ) -> List[Any]:
+        collection = self.get_collection()
+        return collection.distinct(
+            field, query, projection=projection or self.get_projection()
+        )
+
     def find_by_query(
-        self, query: dict, projection: Optional[dict] = None
+        self, query: dict, projection: Optional[Dict[str, Any]] = None
     ) -> Optional[T]:
         collection = self.get_collection()
         if document := collection.find_one(
@@ -76,7 +87,7 @@ class Repository(AbstractRepository[T]):
         return None
 
     def find_by_id(
-        self, document_id: str, projection: Optional[dict] = None
+        self, document_id: str, projection: Optional[Dict[str, Any]] = None
     ) -> Optional[T]:
         collection = self.get_collection()
         if document := collection.find_one(

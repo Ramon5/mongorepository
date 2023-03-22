@@ -41,10 +41,10 @@ class AsyncRepository(AbstractRepository[T]):
 
     async def list_objects(
         self,
-        query: Optional[dict] = None,
-        sort: Optional[List] = None,
-        next_page: Optional[dict] = None,
-        projection: Optional[dict] = None,
+        query: Optional[Dict[str, Any]] = None,
+        sort: Optional[List[Tuple[str, int]]] = None,
+        next_page: Optional[Dict[str, Any]] = None,
+        projection: Optional[Dict[str, Any]] = None,
     ) -> Union[List[T], Dict[str, Any]]:
         collection = self.get_collection()
 
@@ -71,8 +71,19 @@ class AsyncRepository(AbstractRepository[T]):
             self._model_class(**document) async for document in cursor
         ]  # noqa: E501
 
+    async def list_distinct(
+        self,
+        field: str,
+        query: Dict[str, Any],
+        projection: Optional[Dict[str, Any]] = None,
+    ) -> List[Any]:
+        collection = self.get_collection()
+        return await collection.distinct(
+            field, query, projection=projection or self.get_projection()
+        )
+
     async def find_by_query(
-        self, query: dict, projection: Optional[dict] = None
+        self, query: dict, projection: Optional[Dict[str, Any]] = None
     ) -> Optional[T]:
         collection = self.get_collection()
         if document := await collection.find_one(
@@ -82,7 +93,7 @@ class AsyncRepository(AbstractRepository[T]):
         return None
 
     async def find_by_id(
-        self, document_id: str, projection: Optional[dict] = None
+        self, document_id: str, projection: Optional[Dict[str, Any]] = None
     ) -> Optional[T]:
         collection = self.get_collection()
         if document := await collection.find_one(
