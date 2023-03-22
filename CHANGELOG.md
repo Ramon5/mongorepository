@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v0.5.0 (2023-03-22)
+### Feature
+* Add list distinct objects ([`e6b79ce`](https://github.com/Ramon5/mongorepository/commit/e6b79ce4c3d27a0dd2e1f8f94def3e27351106ac))
+
+### Documentation
+* Add first documentation ([`3c02d5b`](https://github.com/Ramon5/mongorepository/commit/3c02d5b9055412f3605d62d6dca188074bce39dd))
+
 ## v0.4.2 (2023-03-20)
 ### Fix
 * Adjust delete method in repositories and refactor modules ([`ec9b79b`](https://github.com/Ramon5/mongorepository/commit/ec9b79b5050a3c034944a07dcffcbadeb674d38c))
