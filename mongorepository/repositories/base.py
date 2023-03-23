@@ -12,6 +12,7 @@ from typing import (  # noqa: E501
 
 from motor import core
 from pymongo.collection import Collection
+from pymongo.database import Database
 
 from mongorepository.models import MongoBaseModel
 
@@ -19,7 +20,7 @@ T = TypeVar("T", bound=MongoBaseModel)
 
 
 class AbstractRepository(Generic[T]):
-    def __init__(self, database):
+    def __init__(self, database: Union[Database, core.Database]):
         self.__database = database
         self.__collection_name = self.Config.collection
         self._paginated = self.__get_pagination_flag()
@@ -35,7 +36,7 @@ class AbstractRepository(Generic[T]):
         if hasattr(self.Config, "pagination"):
             if hasattr(self.Config, "limit"):
                 return self.Config.limit
-            return 50
+        return 50
 
     def set_pagination(self, value: bool) -> None:
         self._paginated = value
