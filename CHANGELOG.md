@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v0.5.1 (2023-03-23)
+### Fix
+* Fix return limit documents function ([`b4012a6`](https://github.com/Ramon5/mongorepository/commit/b4012a6b0ef4c6a7ce63c9191fea1c53239416e5))
+
+### Documentation
+* Add usage section ([`cb957ef`](https://github.com/Ramon5/mongorepository/commit/cb957ef0e1b27eec55438c58caafece9fe22e9df))
+
 ## v0.5.0 (2023-03-22)
 ### Feature
 * Add list distinct objects ([`e6b79ce`](https://github.com/Ramon5/mongorepository/commit/e6b79ce4c3d27a0dd2e1f8f94def3e27351106ac))
