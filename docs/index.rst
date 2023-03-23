@@ -12,6 +12,7 @@ This package provide a mongodb repository for syncronous and asyncronous web app
    :maxdepth: 2
    :caption: Contents:
 
+   usage
 
 
 Indices and tables
