@@ -7,7 +7,7 @@ def date_tzinfo():
     return datetime.now().replace(tzinfo=timezone.utc)
 @dataclass
 class MongoBaseModel:
-    id: Optional[PyObjectId] = field(default=None, repr=False)
+    id: Optional[PyObjectId] = field(default=None, repr=False, metadata={"alias": "_id"})
     created: datetime = field(default_factory=date_tzinfo)
     updated: datetime = field(default_factory=date_tzinfo)
 

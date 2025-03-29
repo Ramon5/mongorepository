@@ -1,3 +1,4 @@
+from dataclasses import asdict
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 import pymongo
@@ -7,6 +8,7 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 from pymongo.results import DeleteResult, InsertManyResult, InsertOneResult
 
 from mongorepository.repositories.base import AbstractRepository, T
+from mongorepository.utils.converters import get_converted_entity
 
 
 class AsyncRepository(AbstractRepository[T]):
@@ -38,6 +40,8 @@ class AsyncRepository(AbstractRepository[T]):
             "results": documents,
             "next_page": next_key_fn(documents),
         }
+    
+    
 
     async def list_objects(
         self,
@@ -68,7 +72,7 @@ class AsyncRepository(AbstractRepository[T]):
         )
 
         return [
-            self._model_class(**document) async for document in cursor
+            self._model_class(**get_converted_entity(document)) async for document in cursor
         ]  # noqa: E501
 
     async def list_distinct(
@@ -89,7 +93,7 @@ class AsyncRepository(AbstractRepository[T]):
         if document := await collection.find_one(
             query, projection=projection or self.get_projection()
         ):
-            return self._model_class(**document)
+            return self._model_class(**get_converted_entity(document))
         return None
 
     async def find_by_id(
@@ -100,25 +104,24 @@ class AsyncRepository(AbstractRepository[T]):
             {"_id": ObjectId(document_id)},
             projection=projection or self.get_projection(),
         ):
-            return self._model_class(**document)
+            return self._model_class(**get_converted_entity(document))
         return None
 
     async def save(self, model: T) -> Optional[T]:
         collection = self.get_collection()
-        raw_model = model.dict(by_alias=True, exclude_none=True)
 
-        if id_model := raw_model.get("_id", raw_model.get("id")):
+        if id_model := model.get("id"):
             await collection.update_one(
-                {"_id": ObjectId(id_model)}, {"$set": raw_model}
+                {"_id": ObjectId(id_model)}, {"$set": model}
             )  # noqa: E501
             return await self.find_by_id(model.id)
 
-        document: InsertOneResult = await collection.insert_one(raw_model)
+        document: InsertOneResult = await collection.insert_one(model)
 
         return await self.find_by_id(str(document.inserted_id))
 
     async def bulk_create(self, models: List[T]) -> List[ObjectId]:
-        raw_models = [model.dict(exclude_none=True) for model in models]
+        raw_models = [{k: v for k, v in asdict(model).items() if v is not None} for model in models]
         result: InsertManyResult = await self.get_collection().insert_many(
             raw_models
         )  # noqa: E501

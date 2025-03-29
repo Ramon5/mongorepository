@@ -1,4 +1,5 @@
 from typing import Optional
+from dataclasses import dataclass
 
 import mongomock
 import mongomock_motor
@@ -8,7 +9,11 @@ from mongorepository.models import MongoBaseModel
 from mongorepository.repositories.async_mongo import AsyncRepository
 from mongorepository.repositories.mongo import Repository
 
-
+@dataclass
+class Data(MongoBaseModel):
+    name: str = "Foo"
+    age: int = 18
+    job: Optional[str] = None
 class AsyncMongoClient(mongomock_motor.AsyncMongoMockClient):
     def __enter__(self):
         return self
@@ -26,11 +31,6 @@ def database():
 
 @pytest.fixture
 def model_class():
-    class Data(MongoBaseModel):
-        name: str
-        age: int
-        job: Optional[str]
-
     return Data
 
 

@@ -15,6 +15,7 @@ from pymongo.collection import Collection
 from pymongo.database import Database
 
 from mongorepository.models import MongoBaseModel
+from mongorepository.utils.converters import get_converted_entity
 
 T = TypeVar("T", bound=MongoBaseModel)
 
@@ -55,7 +56,7 @@ class AbstractRepository(Generic[T]):
         self, document: Dict[str, Any]
     ) -> None:  # noqa: E501
         document["results"] = [
-            self._model_class(**document) for document in document["results"]
+            self._model_class(**get_converted_entity(document)) for document in document["results"]
         ]
 
     def generate_pagination_query(
