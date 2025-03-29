@@ -30,19 +30,18 @@ jobs:
       - name: Install requirements
         run: poetry install --only semver
 
-      - name: Install dependencies
-        run: poetry add sphinx sphinx-rtd-theme
-
-      - name: Generate docs
+      - name: Generate doc
         run: |
-          cd docs
-          make html
+          poetry run sphinx-build -b html docs/ docs/_build/html
 
       - name: Publish in branch `gh-pages`
         run: |
-          git worktree add -B gh-pages ../gh-pages origin/gh-pages
-          cp -r _build/html/* ../gh-pages
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git worktree add -B gh-pages ../gh-pages origin/gh-pages || true
+          rm -rf ../gh-pages/*
+          cp -r docs/_build/html/* ../gh-pages
           cd ../gh-pages
           git add .
-          git commit -m "Atualizar documentação"
+          git commit -m "Atualizar documentação" || true
           git push origin gh-pages

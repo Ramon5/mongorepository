@@ -24,6 +24,6 @@ jobs:
   call-docs-pipeline:
     name: Deploy Docs
     needs:
-      - call-deploy-pipeline
+      - call-release-pipeline
     uses: ./.github/workflows/docs.yml
     secrets: inherit
