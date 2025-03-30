@@ -15,6 +15,16 @@ class AsyncRepository(AbstractRepository[T]):
     def __init__(self, database: AsyncIOMotorDatabase):
         super().__init__(database)
 
+    async def create_indexes(self):
+        collection = self.get_collection()
+
+        index_models = [
+            pymongo.IndexModel([(field, 1)], **options)
+            for field, options in getattr(self.model, "__indexes__", [])
+        ]
+        if index_models:
+            await collection.create_indexes(index_models)
+
     async def __get_paginated_documents(
         self,
         query: Dict[str, Any],
@@ -40,8 +50,6 @@ class AsyncRepository(AbstractRepository[T]):
             "results": documents,
             "next_page": next_key_fn(documents),
         }
-    
-    
 
     async def list_objects(
         self,

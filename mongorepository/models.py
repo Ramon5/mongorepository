@@ -11,6 +11,8 @@ class MongoBaseModel:
     created: datetime = field(default_factory=date_tzinfo)
     updated: datetime = field(default_factory=date_tzinfo)
 
+    __indexes__ = []
+
     def update_from_model(self, model: Type['MongoBaseModel']) -> None:
         updates = {key: value for key, value in model.__dict__.items() if value is not None}
         for field, value in updates.items():
