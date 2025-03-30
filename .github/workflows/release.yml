@@ -29,12 +29,14 @@ jobs:
       
       - name: Install requirements
         run: poetry install --only semver
-     
-      - name: Python Semantic Release
+
+      - name: Set automatic commits
         run: |
-          set -o pipefail
-          # Set git details
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
-          # run semantic-release
-          poetry run semantic-release publish -v DEBUG -D commit_author="github-actions <action@github.com>"
+
+      - name: Run Semantic Release
+        run: |
+          poetry run semantic-release publish -v DEBUG
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
