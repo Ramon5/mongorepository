@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mongorepository"
-version = "0.6.0"
+version = "0.6.1"
 description = ""
 authors = ["Ramon Rodrigues <ramon.srodrigues01@gmail.com>"]
 readme = "README.md"
@@ -47,7 +47,7 @@ version_source = "tag"
 commit_version_number = true # required for version_source = "tag"
 commit_message = "{version} [skip ci]" # skip triggering ci pipelines for version commits
 tag_commit = true
-upload_to_pypi = true
+upload_to_pypi = false
 upload_to_release = true
 hvcs = "github"
 

@@ -15,15 +15,15 @@ jobs:
       - call-testing-pipeline
     uses: ./.github/workflows/release.yml
     secrets: inherit
-  call-deploy-pipeline:
-    name: Deploy
-    needs:
-      - call-release-pipeline
-    uses: ./.github/workflows/deploy.yml
-    secrets: inherit
   call-docs-pipeline:
     name: Deploy Docs
     needs:
       - call-release-pipeline
     uses: ./.github/workflows/docs.yml
+    secrets: inherit
+  call-deploy-pipeline:
+    name: Deploy
+    needs:
+      - call-docs-pipeline
+    uses: ./.github/workflows/deploy.yml
     secrets: inherit
