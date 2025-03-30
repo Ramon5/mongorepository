@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.6.0 (2025-03-30)
+
+### Feature
+
+* Add index ([`57cafbe`](https://github.com/Ramon5/mongorepository/commit/57cafbe825377a7b7a89d4e96d8aedb9ded803c3))
+
 ## v0.5.1 (2023-03-23)
 ### Fix
 * Fix return limit documents function ([`b4012a6`](https://github.com/Ramon5/mongorepository/commit/b4012a6b0ef4c6a7ce63c9191fea1c53239416e5))
