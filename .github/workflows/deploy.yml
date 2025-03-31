@@ -27,7 +27,21 @@ jobs:
           python-version: '3.9'
           cache: 'poetry'
 
+      - name: Check if version exists on PyPI
+        id: check_version
+        run: |
+          PACKAGE_NAME=$(poetry version --short)
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://pypi.org/pypi/YOUR_PACKAGE_NAME/$PACKAGE_NAME/json)
+          if [ "$RESPONSE" == "400" ]; then
+            echo "Version $PACKAGE_NAME already exists on PyPI. Skipping publish."
+            echo "exists=true" >> $GITHUB_ENV
+          else
+            echo "Version $PACKAGE_NAME does not exist on PyPI. Proceeding with publish."
+            echo "exists=false" >> $GITHUB_ENV
+          fi
+
       - name: Publish
+        if: env.exists == 'false'
         run: |
           poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
           poetry publish --build
