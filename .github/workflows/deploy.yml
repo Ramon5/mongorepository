@@ -1,10 +1,11 @@
 name: Python package
+
 on:
   push:
     tags:
       - "v*.*.*"
   workflow_call:
-  
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,21 +28,25 @@ jobs:
           python-version: '3.9'
           cache: 'poetry'
 
+      - name: Install dependencies
+        run: poetry install --no-root
+
       - name: Check if version exists on PyPI
-        id: check_version
         run: |
-          PACKAGE_NAME=$(poetry version --short)
-          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://pypi.org/pypi/YOUR_PACKAGE_NAME/$PACKAGE_NAME/json)
-          if [ "$RESPONSE" == "400" ]; then
-            echo "Version $PACKAGE_NAME already exists on PyPI. Skipping publish."
-            echo "exists=true" >> $GITHUB_ENV
+          PACKAGE_VERSION=$(poetry version --short)
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://pypi.org/pypi/mongorepository/$PACKAGE_VERSION/json)
+          if [ "$RESPONSE" == "200" ]; then
+            echo "Version $PACKAGE_VERSION already exists on PyPI. Skipping publish."
+            echo "EXISTS=true" >> $GITHUB_ENV
           else
-            echo "Version $PACKAGE_NAME does not exist on PyPI. Proceeding with publish."
-            echo "exists=false" >> $GITHUB_ENV
+            echo "Version $PACKAGE_VERSION does not exist on PyPI. Proceeding with publish."
+            echo "EXISTS=false" >> $GITHUB_ENV
           fi
 
-      - name: Publish
-        if: env.exists == 'false'
+      - name: Publish to PyPI
+        env:
+          EXISTS: ${{ env.EXISTS }}
+        if: env.EXISTS == 'false'
         run: |
           poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
           poetry publish --build
