@@ -1,5 +1,6 @@
-from typing import Any, Dict, List, Optional, Tuple, Union
 from dataclasses import asdict
+from typing import Any, Dict, List, Optional, Tuple, Union
+
 import pymongo
 from bson import ObjectId
 from pymongo.database import Database
@@ -64,7 +65,9 @@ class Repository(AbstractRepository[T]):
             query, projection=projection or self.get_projection()
         ).sort(sort)
 
-        return [self._model_class(**get_converted_entity(document)) for document in cursor]
+        return [
+            self._model_class(**get_converted_entity(document)) for document in cursor
+        ]
 
     def list_distinct(
         self,
@@ -113,7 +116,10 @@ class Repository(AbstractRepository[T]):
         return self.find_by_id(str(document.inserted_id))
 
     def bulk_create(self, models: List[T]) -> List[ObjectId]:
-        raw_models = [{k: v for k, v in asdict(model).items() if v is not None} for model in models]
+        raw_models = [
+            {k: v for k, v in asdict(model).items() if v is not None}
+            for model in models
+        ]
         result: InsertManyResult = self.get_collection().insert_many(
             raw_models
         )  # noqa: E501

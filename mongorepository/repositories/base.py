@@ -56,7 +56,8 @@ class AbstractRepository(Generic[T]):
         self, document: Dict[str, Any]
     ) -> None:  # noqa: E501
         document["results"] = [
-            self._model_class(**get_converted_entity(document)) for document in document["results"]
+            self._model_class(**get_converted_entity(document))
+            for document in document["results"]
         ]
 
     def generate_pagination_query(

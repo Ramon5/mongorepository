@@ -1,5 +1,5 @@
-from typing import Optional
 from dataclasses import dataclass
+from typing import Optional
 
 import mongomock
 import mongomock_motor
@@ -9,11 +9,14 @@ from mongorepository.models import MongoBaseModel
 from mongorepository.repositories.async_mongo import AsyncRepository
 from mongorepository.repositories.mongo import Repository
 
+
 @dataclass
 class Data(MongoBaseModel):
-    name: str = "Foo"
-    age: int = 18
+    name: str
+    age: int
     job: Optional[str] = None
+
+
 class AsyncMongoClient(mongomock_motor.AsyncMongoMockClient):
     def __enter__(self):
         return self

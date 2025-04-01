@@ -80,7 +80,8 @@ class AsyncRepository(AbstractRepository[T]):
         )
 
         return [
-            self._model_class(**get_converted_entity(document)) async for document in cursor
+            self._model_class(**get_converted_entity(document))
+            async for document in cursor
         ]  # noqa: E501
 
     async def list_distinct(
@@ -117,19 +118,23 @@ class AsyncRepository(AbstractRepository[T]):
 
     async def save(self, model: T) -> Optional[T]:
         collection = self.get_collection()
+        raw_model = asdict(model)
 
-        if id_model := model.get("id"):
+        if model_id := raw_model.get("_id", raw_model.get("id")):
             await collection.update_one(
-                {"_id": ObjectId(id_model)}, {"$set": model}
+                {"_id": ObjectId(model_id)}, {"$set": raw_model}
             )  # noqa: E501
-            return await self.find_by_id(model.id)
+            return await self.find_by_id(model_id)
 
-        document: InsertOneResult = await collection.insert_one(model)
+        document: InsertOneResult = await collection.insert_one(raw_model)
 
         return await self.find_by_id(str(document.inserted_id))
 
     async def bulk_create(self, models: List[T]) -> List[ObjectId]:
-        raw_models = [{k: v for k, v in asdict(model).items() if v is not None} for model in models]
+        raw_models = [
+            {k: v for k, v in asdict(model).items() if v is not None}
+            for model in models
+        ]
         result: InsertManyResult = await self.get_collection().insert_many(
             raw_models
         )  # noqa: E501
