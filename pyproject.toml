@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mongorepository"
-version = "0.6.1"
+version = "0.6.2"
 description = ""
 authors = ["Ramon Rodrigues <ramon.srodrigues01@gmail.com>"]
 readme = "README.md"
