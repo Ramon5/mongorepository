@@ -1,3 +1,4 @@
+from abc import ABC
 from datetime import datetime, timezone
 from typing import Any, Dict, Optional, Type
 from dataclasses import dataclass, field
@@ -5,8 +6,9 @@ from mongorepository.utils.objects import PyObjectId
 
 def date_tzinfo():
     return datetime.now().replace(tzinfo=timezone.utc)
+
 @dataclass
-class MongoBaseModel:
+class MongoBaseModel(ABC):
     id: Optional[PyObjectId] = field(default=None, repr=False, metadata={"alias": "_id"})
     created: datetime = field(default_factory=date_tzinfo, init=False)
     updated: datetime = field(default_factory=date_tzinfo, init=False)
