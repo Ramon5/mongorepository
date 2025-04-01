@@ -8,8 +8,8 @@ def date_tzinfo():
 @dataclass
 class MongoBaseModel:
     id: Optional[PyObjectId] = field(default=None, repr=False, metadata={"alias": "_id"})
-    created: datetime = field(default_factory=date_tzinfo)
-    updated: datetime = field(default_factory=date_tzinfo)
+    created: datetime = field(default_factory=date_tzinfo, init=False)
+    updated: datetime = field(default_factory=date_tzinfo, init=False)
 
     __indexes__ = []
 
