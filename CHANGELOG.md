@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.6.2 (2025-04-01)
+
+### Fix
+
+* Dataclass optional fields ([`a3358cd`](https://github.com/Ramon5/mongorepository/commit/a3358cd9cf63ac6ffb8c03c6254a2a013a5e0a12))
+
 ## v0.6.0 (2025-03-30)
 
 ### Feature
