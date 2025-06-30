@@ -33,9 +33,7 @@ async def test_delete_data(async_repository, model_class):
 
 async def test_get_paginated_results(async_repository):
     async_repository.set_pagination(True)
-    registers = DataFactory.build_batch(100)
+    registers = DataFactory.batch(size=100)
     await async_repository.bulk_create(registers)
     documents = await async_repository.list_objects()
-
-    # Verificação
     assert documents["total"] == 50

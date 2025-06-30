@@ -1,6 +1,5 @@
 from tests.factories import DataFactory
 
-
 def test_create_data(repository, model_class) -> None:
     data = model_class(name="foo bar", age=18, job="developer")
     result = repository.save(data)
@@ -29,7 +28,7 @@ def test_delete_data(repository, model_class):
 
 def test_get_paginated_results(repository):
     repository.set_pagination(True)
-    registers = DataFactory.build_batch(size=100)
+    registers = DataFactory.batch(size=100)
     repository.bulk_create(registers)
     documents = repository.list_objects()
 

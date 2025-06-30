@@ -1,19 +1,12 @@
-from dataclasses import dataclass
+from pydantic import BaseModel
+from polyfactory.factories.pydantic_factory import ModelFactory
 
-import factory
 
-
-@dataclass
-class Data:
+class Data(BaseModel):
     name: str
     age: int
     job: str
 
 
-class DataFactory(factory.Factory):
-    class Meta:
-        model = Data
-
-    name = factory.Faker("name")
-    age = factory.Faker("random_int", min=18, max=65)
-    job = factory.Faker("job")
+class DataFactory(ModelFactory):
+    __model__ = Data

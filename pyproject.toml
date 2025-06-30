@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mongorepository"
-version = "0.6.5"
+version = "0.6.6"
 description = ""
 authors = ["Ramon Rodrigues <ramon.srodrigues01@gmail.com>"]
 readme = "README.md"
@@ -8,6 +8,8 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.9"
 motor = "^3.1.1"
+pydantic = "^2.11.7"
+polyfactory = "^2.21.0"
 
 
 [tool.poetry.group.lint.dependencies]

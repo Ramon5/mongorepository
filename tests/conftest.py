@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from typing import Optional
 
 import mongomock
@@ -8,13 +7,6 @@ import pytest
 from mongorepository.models import MongoBaseModel
 from mongorepository.repositories.async_mongo import AsyncRepository
 from mongorepository.repositories.mongo import Repository
-
-
-@dataclass
-class Data(MongoBaseModel):
-    name: str
-    age: int
-    job: Optional[str] = None
 
 
 class AsyncMongoClient(mongomock_motor.AsyncMongoMockClient):
@@ -34,6 +26,11 @@ def database():
 
 @pytest.fixture
 def model_class():
+    class Data(MongoBaseModel):
+        name: str
+        age: int
+        job: Optional[str]
+
     return Data
 
 
