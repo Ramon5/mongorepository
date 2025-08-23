@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.7.1 (2025-08-23)
+
+### Fix
+
+* Adjust changelog ([`0e15d20`](https://github.com/Ramon5/mongorepository/commit/0e15d202d2e7db67d8a3ff88635eb627ffd96c55))
+
 ## v0.7.0 (2025-08-23)
 
 ### Feature
