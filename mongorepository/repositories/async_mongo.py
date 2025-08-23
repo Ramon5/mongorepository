@@ -133,3 +133,13 @@ class AsyncRepository(AbstractRepository[T]):
         if result.deleted_count == 1:
             return True
         return False
+    
+    async def bulk_delete(self, query: Dict[str, Any]) -> bool:
+        collection = self.get_collection()
+        result: DeleteResult = await collection.delete_many(query)
+        return result.deleted_count > 0
+    
+    async def bulk_update(self, query: Dict[str, Any], update_data: Dict[str, Any]) -> bool:
+        collection = self.get_collection()
+        result = await collection.update_many(query, {"$set": update_data})
+        return result.modified_count > 0

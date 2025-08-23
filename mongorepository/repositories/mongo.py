@@ -127,3 +127,13 @@ class Repository(AbstractRepository[T]):
         if result.deleted_count == 1:
             return True
         return False
+    
+    def bulk_delete(self, query: Dict[str, Any]) -> bool:
+        collection = self.get_collection()
+        result: DeleteResult = collection.delete_many(query)
+        return result.deleted_count > 0
+
+    def bulk_update(self, query: Dict[str, Any], update_data: Dict[str, Any]) -> bool:
+        collection = self.get_collection()
+        result = collection.update_many(query, {"$set": update_data})
+        return result.modified_count > 0
