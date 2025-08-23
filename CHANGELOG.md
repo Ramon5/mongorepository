@@ -6,6 +6,14 @@
 
 ### Feature
 
+* Add bulks ([#6](https://github.com/Ramon5/mongorepository/issues/6)) ([`e2dc8ae`](https://github.com/Ramon5/mongorepository/commit/e2dc8ae3747cfade893c91f22375fd9981dcbc3a))
+* Add bulk update and delete ([`9208b5f`](https://github.com/Ramon5/mongorepository/commit/9208b5f78a45390673892f1d36363a33a79c54a1))
+* Add bulk update and delete ([`6cca937`](https://github.com/Ramon5/mongorepository/commit/6cca93757da307f62b6a803d58c4e376c4f054f0))
+
+## v0.7.0 (2025-08-23)
+
+### Feature
+
 * Add bulk update and delete ([`9208b5f`](https://github.com/Ramon5/mongorepository/commit/9208b5f78a45390673892f1d36363a33a79c54a1))
 * Add bulk update and delete ([`6cca937`](https://github.com/Ramon5/mongorepository/commit/6cca93757da307f62b6a803d58c4e376c4f054f0))
 
