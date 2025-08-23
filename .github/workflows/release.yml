@@ -28,7 +28,7 @@ jobs:
           cache: 'poetry'
       
       - name: Install requirements
-        run: poetry install --only semver
+        run: poetry install --with semver,build
 
       - name: Set automatic commits
         run: |
@@ -37,6 +37,6 @@ jobs:
 
       - name: Run Semantic Release
         run: |
-          poetry run semantic-release publish -v DEBUG
+          poetry run semantic-release publish -v DEBUG --build-command "poetry build"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
