@@ -52,6 +52,8 @@ tag_commit = true
 upload_to_pypi = false
 upload_to_release = true
 hvcs = "github"
+build_command = "poetry build"
+dist_path = "dist/"
 
 [build-system]
 requires = ["poetry-core"]

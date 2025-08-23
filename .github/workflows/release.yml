@@ -37,6 +37,6 @@ jobs:
 
       - name: Run Semantic Release
         run: |
-          poetry run semantic-release publish -v DEBUG --build-command "poetry build"
+          poetry run semantic-release publish -v DEBUG
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
