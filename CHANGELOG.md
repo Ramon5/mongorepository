@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.9.0 (2025-08-23)
+
+### Feature
+
+* Add bulk update and delete ([`9208b5f`](https://github.com/Ramon5/mongorepository/commit/9208b5f78a45390673892f1d36363a33a79c54a1))
+
 ## v0.6.2 (2025-04-01)
 
 ### Fix
