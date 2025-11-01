@@ -1,4 +1,5 @@
-from pydantic import BaseModel, ConfigDict, Field
+from bson import ObjectId
+from pydantic import BaseModel, ConfigDict, Field, field_serializer
 from datetime import datetime, timezone
 from typing import Any, Dict, Optional, Type, TypeVar
 
@@ -32,3 +33,9 @@ class MongoBaseModel(BaseModel):
             field_name = getattr(value, "alias", key)
             mapper[field_name] = 1
         return mapper
+
+    @field_serializer('id')
+    def serialize_id(self, id: ObjectId, _info):
+        if id is not None:
+            return str(id)
+        return None
