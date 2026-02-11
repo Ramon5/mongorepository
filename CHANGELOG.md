@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.8.0 (2026-02-11)
+
+### Feature
+
+* Adjust orchestrator ([`a124e7c`](https://github.com/Ramon5/mongorepository/commit/a124e7c32ac81588777f8e3440368d5de5eac7d2))
+
 ## v0.7.1 (2025-08-23)
 
 ### Fix
