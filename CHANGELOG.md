@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.7.2 (2026-02-11)
+
+### Fix
+
+* Fix bug on save method ([`0b3f61a`](https://github.com/Ramon5/mongorepository/commit/0b3f61a118960c70f3f0a847b9d3635eadac5ac8))
+
 ## v0.7.1 (2025-08-23)
 
 ### Fix
