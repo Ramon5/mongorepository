@@ -101,20 +101,24 @@ class AsyncRepository(AbstractRepository[T]):
         ):
             return self._model_class(**document)
         return None
-
+    
     async def save(self, model: T) -> Optional[T]:
         collection = self.get_collection()
-        raw_model = model.model_dump(by_alias=True, exclude_none=True)
 
-        if id_model := raw_model.get("_id", raw_model.get("id")):
-            await collection.update_one(
-                {"_id": ObjectId(id_model)}, {"$set": raw_model}
-            )  # noqa: E501
-            return await self.find_by_id(model.id)
+        raw = model.model_dump(by_alias=True, exclude_none=True)
 
-        document: InsertOneResult = await collection.insert_one(raw_model)
+        id_model = raw.pop("_id", None) or raw.pop("id", None)
+        oid = self.__normalize_id(id_model) if id_model else ObjectId()
 
-        return await self.find_by_id(str(document.inserted_id))
+        raw["_id"] = oid
+
+        await collection.update_one(
+            {"_id": oid},
+            {"$set": raw},
+            upsert=True,
+        )
+
+        return await self.find_by_id(oid)
 
     async def bulk_create(self, models: List[T]) -> List[ObjectId]:
         raw_models = [model.model_dump(exclude_none=True) for model in models]
