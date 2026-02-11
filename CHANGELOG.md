@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.8.1 (2026-02-11)
+
+### Fix
+
+* Adjust async repository ([`9d0bc08`](https://github.com/Ramon5/mongorepository/commit/9d0bc08241c2e7f3e98dcaf21a29f4d94e04f5ba))
+
 ## v0.8.0 (2026-02-11)
 
 ### Feature
